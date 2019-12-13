@@ -1,15 +1,17 @@
 import React from 'react';
 import {AppBar, Toolbar, Typography} from '@material-ui/core';
-import CreateDialog from '../exercises/Dialogs/create';
+
 export default (props) =>{
     return (
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="overline" color="inherit" style={{flex : 1}}>
-            Exercise database
-        </Typography>
-        <CreateDialog muscles={props.muscles} onCreate={props.onCreate}/>
-        </Toolbar>
+      <AppBar position="static" style={{background : '#e8e8e8', color : 'black'}}>
+        <Typography 
+            variant="overline" 
+            color="inherit" 
+            style={{padding : 15, margin : 'auto', textTransform : 'capitalize', fontSize : 13}}
+        >
+            Product count :  {props.stock}
+        </Typography> 
+       
       </AppBar>
  
     )
