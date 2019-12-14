@@ -18,7 +18,12 @@ export default (props) =>{
             <List component="ul" aria-label="main mailbox folders">
                 {
                     props.products.map(product=>(
-                            <ListItem button key={product.id} onClick={(e)=>props.selectProduct(product)}>
+                            <ListItem 
+                                button 
+                                key={product.id} 
+                                onClick={(e)=>props.selectProduct(product)}
+                                selected={product.id===props.selectedProductId}
+                            >
                                 <ListItemText primary={product.name} style={{flex : 6}}/>
                                 <ListItemText primary={`$${product.price.toFixed(2)}`}/>
                             </ListItem>

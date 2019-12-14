@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Header from './Header';
 import ProductList from './ProductList';
 import ProductStock from './ProductStock';
-import { Grid, Paper , Typography, List, ListItem, ListItemText} from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 import ProductDetail from './ProductDetail';
 const styles = {
     st : {padding : 20, margin : 10, height : 500, overflow : 'auto'}
@@ -73,25 +73,98 @@ export default class Products extends Component{
             price : 0,
             rating : 0,
             stock : 0
-        }
+        },
+        totalProducts : 8,
+        
       }
       selectProduct = product => {
           this.setState({product : product}, ()=>console.log(this.state.product))
       }
+      addProduct = (product) => {
+        const newProduct = {
+          ...product,
+          id : this.state.totalProducts + 1,
+          stock : 5 
+        }
+        
+        const newProductsArray =  [...this.state.products, newProduct]
+        this.setState({
+          products : newProductsArray,
+          totalProducts : this.state.totalProducts + 1,
+          product : {
+            id : 0,
+            name : '',
+            price : 0,
+            rating : 0,
+            stock : 0
+        }
+        })
+      }
+      saveProduct = (newProduct)=>{
+        const currentProducts = this.state.products;
+        currentProducts[this.state.product.id -1] = newProduct;
+        this.setState({
+          products : currentProducts,
+          product : 
+          {
+            id : 0,
+            name : '',
+            price : 0,
+            rating : 0,
+            stock : 0
+        }
+        }) 
+      }
+      deleteProduct = ()=>{
+        const products = this.state.products;
+        const newProducts = products.filter(product=>product.id!==this.state.product.id)
+        this.setState({
+          products : newProducts, 
+          totalProducts : this.state.products -1, 
+          product : {
+            id : 0,
+            name : '',
+            price : 0,
+            rating : 0,
+            stock : 0
+        }
+        })
+      }
+      cancelProduct = () => {
+        this.setState({
+          product : {
+            id : 0,
+            name : '',
+            price : 0,
+            rating : 0,
+            stock : 0
+        }
+        })
+      }
     render(){
         return (
-            <React.Fragment style={ {fontSize : 13, textTransform : 'capitalize'}}>
+            <React.Fragment>
                 <Header/>
                 <Grid container>
                     <Grid item sm={4}>
                         <Paper style={styles.st}>
-                            <ProductList products={this.state.products} selectProduct={this.selectProduct}/>
+                            <ProductList 
+                              products={this.state.products} 
+                              selectProduct={this.selectProduct}
+                              selectedProductId = {this.state.product.id}
+                            />
                         </Paper>
                     </Grid>
                     <Grid item sm={8} >
                         <Paper style={styles.st}>
                             <ProductStock stock={this.state.product.stock}/>
-                            <ProductDetail product={this.state.product}/>
+                            <ProductDetail 
+                              product={this.state.product} 
+                              addProduct={this.addProduct}
+                              saveProduct={this.saveProduct}
+                              deleteProduct = {this.deleteProduct}
+                              cancelProduct = {this.cancelProduct}
+                            />
                         </Paper>
                     </Grid>
                 </Grid>
