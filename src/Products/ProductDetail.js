@@ -1,197 +1,197 @@
 import React from 'react';
-import {AppBar, Toolbar, Typography, TextField } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, TextField } from '@material-ui/core';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ProductRating from './ProductRating';
 import Button from '@material-ui/core/Button';
 class ProductDetail extends React.Component {
     state = {
-        product : {
-            name : '',
-            price : 0,
-            rating : 0
+        product: {
+            name: '',
+            price: 0,
+            rating: 0
         },
-        priceError : "" ,
-        nameError : "" ,
-        ratingError : ""     
+        priceError: "",
+        nameError: "",
+        ratingError: ""
     }
-   
+
     static getDerivedStateFromProps(props, state) {
         if (props.product !== state.product) {
-    
-          return {
-            product: props.product
-          };
+
+            return {
+                product: props.product
+            };
         }
         // Return null to indicate no change to state.
         return null;
-      }
+    }
     updateName = (e) => {
         const product = this.state.product;
         product.name = e.target.value;
-        this.setState({product : product}, ()=>console.log("name : "+ this.state.product.name))
+        this.setState({ product: product }, () => console.log("name : " + this.state.product.name))
     }
     updatePrice = (e) => {
         const product = this.state.product;
-        if(isNaN(e.target.value)){
+        if (isNaN(e.target.value)) {
             const priceError = "Please enter numbers only!";
             product.price = 0
-            this.setState({priceError, product})
+            this.setState({ priceError, product })
         }
-        else{
+        else {
             product.price = +e.target.value;
-            this.setState({product : product}, ()=>console.log("name : "+ this.state.product.price))
+            this.setState({ product: product }, () => console.log("name : " + this.state.product.price))
         }
     }
-        
+
     updateRating = (e) => {
         const product = this.state.product;
         product.rating = e.target.value;
-        this.setState({product : product}, ()=>console.log("name : "+ this.state.product.rating))
+        this.setState({ product: product }, () => console.log("name : " + this.state.product.rating))
     }
     // checkCurrentProduct = () => {
-        
+
     // }
-    deleteCurrentProduct = () =>{
+    deleteCurrentProduct = () => {
         this.setState({
-            product : {
-                name : '',
-                price : 0,
-                rating : 0
-            }  
+            product: {
+                name: '',
+                price: 0,
+                rating: 0
+            }
         })
         this.props.deleteProduct();
     }
-    cancelCurrentProduct = () =>{
+    cancelCurrentProduct = () => {
         this.setState({
-            product : {
-                name : '',
-                price : 0,
-                rating : 0
-            } 
+            product: {
+                name: '',
+                price: 0,
+                rating: 0
+            }
         })
         this.props.cancelProduct();
     }
     addTheProduct = () => {
-        if(!this.state.product.name){
+        if (!this.state.product.name) {
             const nameError = "Name field can't be empty!";
-            this.setState({nameError})
+            this.setState({ nameError })
             return;
         }
-        else if(!this.state.product.rating){
+        else if (!this.state.product.rating) {
             const ratingError = "Please give some rating!";
-            this.setState({ratingError});
+            this.setState({ ratingError });
             return
         }
-        else if(!this.state.product.price){
+        else if (!this.state.product.price) {
             const priceError = "Please enter price of the product!";
-            this.setState({priceError});
+            this.setState({ priceError });
             return
         }
-        else{
+        else {
             const product = this.state.product;
             this.setState({
-                product : {
-                    name : '',
-                    price : 0,
-                    rating : 0
-                }   
-            },()=>this.props.addProduct(product)) 
+                product: {
+                    name: '',
+                    price: 0,
+                    rating: 0
+                }
+            }, () => this.props.addProduct(product))
         }
 
-    } 
+    }
     render() {
         return (
-           <div style={{marginTop : 10}} >
-               <AppBar position="static" style={{ borderRadius : 2}}>
+            <div style={{ marginTop: 10 }} >
+                <AppBar position="static" style={{ borderRadius: 2 }}>
                     <Toolbar>
-                        <Typography variant="overline" color="inherit" style={{flex : 1, textTransform : 'capitalize', fontSize : 14}}>
+                        <Typography variant="overline" color="inherit" style={{ flex: 1, textTransform: 'capitalize', fontSize: 14 }}>
                             Product Details
                         </Typography>
-                        <Typography variant="overline" color="inherit" style={{ textTransform : 'capitalize', fontSize : 14}}>
+                        <Typography variant="overline" color="inherit" style={{ textTransform: 'capitalize', fontSize: 14 }}>
                             {
-                                this.props.product.id?
-                                `${this.props.product.name}(Product ID - ${this.props.product.id})`
-                                : "Product Name(Product ID)"
+                                this.props.product.id ?
+                                    `${this.props.product.name}(Product ID - ${this.props.product.id})`
+                                    : "Product Name(Product ID)"
                             }
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <br/>
+                <br />
                 <form>
-                    <TextField 
-                        id="name" 
-                        label="Name" 
-                        value={this.state.product.name} 
-                        onChange={(e)=>this.updateName(e)}
+                    <TextField
+                        id="name"
+                        label="Name"
+                        value={this.state.product.name}
+                        onChange={(e) => this.updateName(e)}
                         required
                         fullWidth
                     />
-                    <Typography 
-                        variant="subtitle1"  
-                        style={{color : 'red'}}>
-                            {this.state.product.name?"":this.state.nameError}
+                    <Typography
+                        variant="subtitle1"
+                        style={{ color: 'red' }}>
+                        {this.state.product.name ? "" : this.state.nameError}
                     </Typography>
-                    <br/> <br/>
+                    <br /> <br />
                     <TextField
                         fullWidth
                         id="Price"
-                        value={this.state.product.price} 
+                        value={this.state.product.price}
                         label="Price"
                         required
-                        onChange={(e)=>this.updatePrice(e)}
+                        onChange={(e) => this.updatePrice(e)}
                         InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <AttachMoneyIcon />
-                            </InputAdornment>
-                        ),
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <AttachMoneyIcon />
+                                </InputAdornment>
+                            ),
                         }}
                     />
-                    <Typography 
-                        variant="subtitle1"  
-                        style={{color : 'red'}}>
-                            {this.state.priceError}
+                    <Typography
+                        variant="subtitle1"
+                        style={{ color: 'red' }}>
+                        {this.state.priceError}
                     </Typography>
-                     <br/><br/>
-                    <ProductRating rating={this.state.product.rating} updateRating = {this.updateRating}/>
-                    <br/> <br/>
-                    <div style={{float : 'Right', padding : 10, margin : 10}}>
-                        <Button 
-                            variant="contained" 
-                            color="primary" 
-                            onClick={()=>this.addTheProduct()}
+                    <br /><br />
+                    <ProductRating rating={this.state.product.rating} updateRating={this.updateRating} />
+                    <br /> <br />
+                    <div style={{ float: 'Right', padding: 10, margin: 10 }}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => this.addTheProduct()}
                         >
                             Add
                         </Button>
-                        <Button 
-                            variant="contained" 
-                            color="primary" 
-                            style={{marginLeft : 10, backgroundColor : '#38ff87'}}
-                            onClick={()=>this.props.saveProduct(this.state.product)}
-                            
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            style={{ marginLeft: 10, backgroundColor: '#38ff87' }}
+                            onClick={() => this.props.saveProduct(this.state.product)}
+
                         >
                             Save
                         </Button>
-                        <Button 
-                            variant="contained" 
-                            color="secondary" 
-                            style={{marginLeft : 10}}
-                            onClick={()=>this.deleteCurrentProduct()}
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            style={{ marginLeft: 10 }}
+                            onClick={() => this.deleteCurrentProduct()}
                         >
                             Delete
                         </Button>
-                        <Button 
-                            variant="contained" 
-                            color="primary" 
-                            style={{marginLeft : 10, backgroundColor : '#fcc37e'}}
-                            onClick={()=>this.cancelCurrentProduct()}
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            style={{ marginLeft: 10, backgroundColor: '#fcc37e' }}
+                            onClick={() => this.cancelCurrentProduct()}
                         >
                             Cancel
                         </Button>
-                    </div>            
+                    </div>
                 </form>
-           </div>
+            </div>
         );
     }
 }
