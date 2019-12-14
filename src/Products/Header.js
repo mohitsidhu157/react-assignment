@@ -9,10 +9,11 @@ export default (props) =>{
           <Typography variant="overline" color="inherit" style={{flex : 1,  textTransform : 'capitalize', fontSize : 14}}>
             Product manager
           </Typography>
-        <Button style={{color : 'white' , textTransform : 'capitalize', fontSize : 16}}>
+        <Link to="/"><Button style={{color : 'white' , textTransform : 'capitalize', fontSize : 16}}>
             <ExitToAppOutlinedIcon/>
-            <Link to="/" exact><span style={{color : 'white'}}>Logout</span></Link>
+            <span style={{color : 'white'}}>Logout</span>
         </Button>
+        </Link>
         </Toolbar>
       </AppBar>
  

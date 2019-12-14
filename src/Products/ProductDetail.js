@@ -10,12 +10,15 @@ class ProductDetail extends React.Component {
             name : '',
             price : 0,
             rating : 0
-        }       
+        },
+        priceError : "" ,
+        nameError : "" ,
+        ratingError : ""     
     }
    
     static getDerivedStateFromProps(props, state) {
         if (props.product !== state.product) {
-            console.log('inside getDerivedStateFromProps')
+    
           return {
             product: props.product
           };
@@ -30,9 +33,17 @@ class ProductDetail extends React.Component {
     }
     updatePrice = (e) => {
         const product = this.state.product;
-        product.price = +e.target.value;
-        this.setState({product : product}, ()=>console.log("name : "+ this.state.product.price))
+        if(isNaN(e.target.value)){
+            const priceError = "Please enter numbers only!";
+            product.price = 0
+            this.setState({priceError, product})
+        }
+        else{
+            product.price = +e.target.value;
+            this.setState({product : product}, ()=>console.log("name : "+ this.state.product.price))
+        }
     }
+        
     updateRating = (e) => {
         const product = this.state.product;
         product.rating = e.target.value;
@@ -62,16 +73,32 @@ class ProductDetail extends React.Component {
         this.props.cancelProduct();
     }
     addTheProduct = () => {
-        
-        const product = this.state.product;
+        if(!this.state.product.name){
+            const nameError = "Name field can't be empty!";
+            this.setState({nameError})
+            return;
+        }
+        else if(!this.state.product.rating){
+            const ratingError = "Please give some rating!";
+            this.setState({ratingError});
+            return
+        }
+        else if(!this.state.product.price){
+            const priceError = "Please enter price of the product!";
+            this.setState({priceError});
+            return
+        }
+        else{
+            const product = this.state.product;
+            this.setState({
+                product : {
+                    name : '',
+                    price : 0,
+                    rating : 0
+                }   
+            },()=>this.props.addProduct(product)) 
+        }
 
-        this.setState({
-            product : {
-                name : '',
-                price : 0,
-                rating : 0
-            }   
-        },()=>this.props.addProduct(product))
     } 
     render() {
         return (
@@ -97,14 +124,21 @@ class ProductDetail extends React.Component {
                         label="Name" 
                         value={this.state.product.name} 
                         onChange={(e)=>this.updateName(e)}
+                        required
                         fullWidth
                     />
+                    <Typography 
+                        variant="subtitle1"  
+                        style={{color : 'red'}}>
+                            {this.state.product.name?"":this.state.nameError}
+                    </Typography>
                     <br/> <br/>
                     <TextField
                         fullWidth
                         id="Price"
                         value={this.state.product.price} 
                         label="Price"
+                        required
                         onChange={(e)=>this.updatePrice(e)}
                         InputProps={{
                         startAdornment: (
@@ -114,6 +148,11 @@ class ProductDetail extends React.Component {
                         ),
                         }}
                     />
+                    <Typography 
+                        variant="subtitle1"  
+                        style={{color : 'red'}}>
+                            {this.state.priceError}
+                    </Typography>
                      <br/><br/>
                     <ProductRating rating={this.state.product.rating} updateRating = {this.updateRating}/>
                     <br/> <br/>
