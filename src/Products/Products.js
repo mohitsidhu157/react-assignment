@@ -7,95 +7,90 @@ import ProductDetail from './ProductDetail';
 const styles = {
 	st: { padding: 20, margin: 10, height: 500, overflow: 'auto' }
 }
+const initialProductState = {
+	id: 0,
+	name: '',
+	price: 0,
+	rating: 0
+}
 export default class Products extends Component {
-	state = {
-		products: [
-			{
-				id: 1,
-				name: 'Nokia lumia',
-				price: 20,
-				rating: 8,
-				stock: 8
-			},
-			{
-				id: 2,
-				name: 'Sony Experia',
-				price: 300.00,
-				rating: 8,
-				stock: 8
-			},
-			{
-				id: 3,
-				name: 'Apple iphone',
-				price: 1000.00,
-				rating: 8,
-				stock: 8
-			},
-			{
-				id: 4,
-				name: 'Samsung galaxy',
-				price: 600.00,
-				rating: 8,
-				stock: 8
-			},
-			{
-				id: 5,
-				name: 'Black Pearl',
-				price: 700.00,
-				rating: 8,
-				stock: 8
-			},
-			{
-				id: 6,
-				name: 'Huawei P10',
-				price: 200.00,
-				rating: 8,
-				stock: 8
-			},
-			{
-				id: 7,
-				name: 'LG G40',
-				price: 600.00,
-				rating: 8,
-				stock: 8
-			},
-			{
-				id: 8,
-				name: 'One Plus 6T',
-				price: 300.00,
-				rating: 8,
-				stock: 8
-			}
-		],
-		product: {
-			id: 0,
-			name: '',
-			price: 0,
-			rating: 0,
-			stock: 0
-		},
-		totalProducts: 8
+	constructor(props){
+		super(props);
+		this.state = {
+			products: [
+				{
+					id: 1,
+					name: 'Nokia lumia',
+					price: 20,
+					rating: 8
+				},
+				{
+					id: 2,
+					name: 'Sony Experia',
+					price: 300.00,
+					rating: 8
+				},
+				{
+					id: 3,
+					name: 'Apple iphone',
+					price: 1000.00,
+					rating: 8
+				},
+				{
+					id: 4,
+					name: 'Samsung galaxy',
+					price: 600.00,
+					rating: 8
+				},
+				{
+					id: 5,
+					name: 'Black Pearl',
+					price: 700.00,
+					rating: 8
+				},
+				{
+					id: 6,
+					name: 'Huawei P10',
+					price: 200.00,
+					rating: 8
+				},
+				{
+					id: 7,
+					name: 'LG G40',
+					price: 600.00,
+					rating: 8
+				},
+				{
+					id: 8,
+					name: 'One Plus 6T',
+					price: 300.00,
+					rating: 8
+				}
+			],
+			product: initialProductState,
+			totalProducts: 8
+		}
 	}
 	selectProduct = product => {
-		this.setState({ product: product }, () => console.log(this.state.product))
+		this.setState({ product })
 	}
 	addProduct = (product) => {
+		this.setState({ product : initialProductState})
 		const newProduct = {
 			...product,
 			id: this.state.totalProducts + 1,
-			stock: 5
 		}
-
 		const newProductsArray = [...this.state.products, newProduct]
-		this.setState({
+		this.setState((prevState)=>({
+			product: initialProductState,
 			products: newProductsArray,
-			totalProducts: this.state.totalProducts + 1
-		})
+			totalProducts: prevState.totalProducts + 1,		
+		}), ()=>console.log("product state : " + this.state.product.name))
 	}
 	saveProduct = (newProduct) => {
 		const currentProducts = this.state.products;
 		currentProducts[this.state.product.id - 1] = newProduct;
-		this.setState({ products: currentProducts })
+		this.setState({ products: currentProducts, product: initialProductState })
 	}
 	deleteProduct = () => {
 		const products = this.state.products;
@@ -103,24 +98,12 @@ export default class Products extends Component {
 		this.setState({
 			products: newProducts,
 			totalProducts: this.state.products - 1,
-			product: {
-				id: 0,
-				name: '',
-				price: 0,
-				rating: 0,
-				stock: 0
-			}
+			product: initialProductState
 		})
 	}
 	cancelProduct = () => {
 		this.setState({
-			product: {
-				id: 0,
-				name: '',
-				price: 0,
-				rating: 0,
-				stock: 0
-			}
+			product: initialProductState
 		})
 	}
 	render() {

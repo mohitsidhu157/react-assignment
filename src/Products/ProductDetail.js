@@ -4,19 +4,21 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ProductRating from './ProductRating';
 import Button from '@material-ui/core/Button';
+const initialstate = {
+                name: '',
+                price: 0,
+                rating: 0
+            }
 class ProductDetail extends React.Component {
     state = {
-        product: {
-            name: '',
-            price: 0,
-            rating: 0
-        },
+        product: initialstate,
         priceError: "",
         nameError: "",
         ratingError: ""
     }
 
     static getDerivedStateFromProps(props, state) {
+        console.log("inside getDerivedStateFromProps")
         if (props.product !== state.product) {
 
             return {
@@ -29,7 +31,7 @@ class ProductDetail extends React.Component {
     updateName = (e) => {
         const product = this.state.product;
         product.name = e.target.value;
-        this.setState({ product: product }, () => console.log("name : " + this.state.product.name))
+        this.setState({ product })
     }
     updatePrice = (e) => {
         const product = this.state.product;
@@ -40,35 +42,22 @@ class ProductDetail extends React.Component {
         }
         else {
             product.price = +e.target.value;
-            this.setState({ product: product }, () => console.log("name : " + this.state.product.price))
+            this.setState({ product })
         }
     }
 
     updateRating = (e) => {
         const product = this.state.product;
         product.rating = e.target.value;
-        this.setState({ product: product }, () => console.log("name : " + this.state.product.rating))
+        this.setState({ product })
     }
-    // checkCurrentProduct = () => {
-
-    // }
     deleteCurrentProduct = () => {
-        this.setState({
-            product: {
-                name: '',
-                price: 0,
-                rating: 0
-            }
-        })
+        this.setState({product:initialstate })
         this.props.deleteProduct();
     }
     cancelCurrentProduct = () => {
         this.setState({
-            product: {
-                name: '',
-                price: 0,
-                rating: 0
-            }
+            product : initialstate 
         })
         this.props.cancelProduct();
     }
@@ -91,12 +80,10 @@ class ProductDetail extends React.Component {
         else {
             const product = this.state.product;
             this.setState({
-                product: {
-                    name: '',
-                    price: 0,
-                    rating: 0
-                }
-            }, () => this.props.addProduct(product))
+                product: initialstate
+            }
+            ,()=>console.log("setState " + this.state.product.name))
+            this.props.addProduct(product)
         }
 
     }
@@ -155,11 +142,17 @@ class ProductDetail extends React.Component {
                     </Typography>
                     <br /><br />
                     <ProductRating rating={this.state.product.rating} updateRating={this.updateRating} />
+                    <Typography
+                        variant="subtitle1"
+                        style={{ color: 'red' }}>
+                        {this.state.ratingError}
+                    </Typography>
                     <br /> <br />
                     <div style={{ float: 'Right', padding: 10, margin: 10 }}>
                         <Button
                             variant="contained"
                             color="primary"
+                            disabled = {!(this.props.product.id === 0)}
                             onClick={() => this.addTheProduct()}
                         >
                             Add
@@ -167,6 +160,7 @@ class ProductDetail extends React.Component {
                         <Button
                             variant="contained"
                             color="primary"
+                            disabled = {(this.props.product.id === 0)}
                             style={{ marginLeft: 10, backgroundColor: '#38ff87' }}
                             onClick={() => this.props.saveProduct(this.state.product)}
 
@@ -176,6 +170,7 @@ class ProductDetail extends React.Component {
                         <Button
                             variant="contained"
                             color="secondary"
+                            disabled = {(this.props.product.id === 0)}
                             style={{ marginLeft: 10 }}
                             onClick={() => this.deleteCurrentProduct()}
                         >
@@ -184,6 +179,7 @@ class ProductDetail extends React.Component {
                         <Button
                             variant="contained"
                             color="primary"
+                            disabled = {(this.props.product.id === 0)}
                             style={{ marginLeft: 10, backgroundColor: '#fcc37e' }}
                             onClick={() => this.cancelCurrentProduct()}
                         >

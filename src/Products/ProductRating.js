@@ -28,7 +28,7 @@ class ProductRating extends React.Component {
                         {
                             [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => {
                                 if (i === 0)
-                                    return <MenuItem value={0} key={i}>None</MenuItem>
+                                    return <MenuItem value={0} key={i} disabled>None</MenuItem>
 
                                 return <MenuItem value={i} key={i}>{i}</MenuItem>
                             })

@@ -6,35 +6,29 @@ import TextField from '@material-ui/core/TextField';
 import { withRouter } from 'react-router-dom'
 class Login extends Component {
 	state = {
-		email: "",
-		password: "",
 		emailError: "",
 		passwordError: "",
 		invalid: true
 	}
 	validateEmail = (e) => {
-
-		this.setState({ email: e.target.value })
-		if ((!this.state.email.includes('@')) || (!this.state.email.includes('.'))) {
+		if ((!e.target.value.includes('@')) || (!e.target.value.includes('.'))) {
 			let emailError = "Invalid email";
-			this.setState({ emailError })
+			this.setState({ emailError, invalid : true})
 		}
 		else {
-			this.setState({ emailError: "" })
+			this.setState({ emailError: "", email : e.target.value  },()=>this.validate())
 		}
-		this.validate();
+		
 	}
 	validatePassword = (e) => {
-
-		this.setState({ password: e.target.value })
 		if (e.target.value.length < 8) {
 			let passwordError = "Password must be 8 characters long!"
-			this.setState({ passwordError })
+			this.setState({ passwordError, invalid : true  })
 		}
 		else {
-			this.setState({ passwordError: "" })
+			this.setState({ passwordError: "", password : e.target.value }, ()=>this.validate())
 		}
-		this.validate();
+		
 	}
 	validate = () => {
 		if (!(this.state.emailError || this.state.passwordError) && (this.state.email) && (this.state.password)) {
