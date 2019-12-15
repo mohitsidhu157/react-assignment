@@ -135,7 +135,7 @@ export default class Products extends Component {
 					</Grid>
 					<Grid item sm={8} >
 						<Paper style={styles.st}>
-							<ProductStock stock={this.state.product.stock} />
+							<ProductStock stock={this.state.totalProducts} />
 							<ProductDetail
 								product={this.state.product}
 								addProduct={this.addProduct}
