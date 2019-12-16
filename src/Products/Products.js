@@ -67,26 +67,27 @@ export default class Products extends Component {
 					rating: 8
 				}
 			],
-			product: initialProductState,
+			product: JSON.parse(JSON.stringify(initialProductState)),
 			totalProducts: 8
 		}
 	}
 	selectProduct = product => {
 		this.setState({ product })
 	}
+	
 	addProduct = (product) => {
-		this.setState({ product : initialProductState})
-		const newProduct = {
-			...product,
-			id: this.state.totalProducts + 1,
-		}
-		const newProductsArray = [...this.state.products, newProduct]
-		this.setState((prevState)=>({
-			product: initialProductState,
-			products: newProductsArray,
-			totalProducts: prevState.totalProducts + 1,		
-		}), ()=>console.log("product state : " + this.state.product.name))
-	}
+        const newProduct = {
+          ...product,
+          id : this.state.totalProducts + 1,
+		}        
+		console.log(" initialProductState ", initialProductState)
+        const newProductsArray =  [...this.state.products, newProduct]
+        this.setState({
+          products : newProductsArray,
+          totalProducts : this.state.totalProducts + 1,
+          product : initialProductState
+        })
+    }
 	saveProduct = (newProduct) => {
 		const currentProducts = this.state.products;
 		currentProducts[this.state.product.id - 1] = newProduct;

@@ -14,8 +14,7 @@ class ProductRating extends React.Component {
                             Rating
                         </Typography>
                     </Toolbar>
-
-                </AppBar>
+               </AppBar>
                 <br />
                 <FormControl fullWidth>
                     <InputLabel>Rating</InputLabel>

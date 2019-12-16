@@ -11,7 +11,7 @@ const initialstate = {
             }
 class ProductDetail extends React.Component {
     state = {
-        product: initialstate,
+        product: JSON.parse(JSON.stringify(initialstate)),
         priceError: "",
         nameError: "",
         ratingError: ""
@@ -61,6 +61,7 @@ class ProductDetail extends React.Component {
         })
         this.props.cancelProduct();
     }
+    
     addTheProduct = () => {
         if (!this.state.product.name) {
             const nameError = "Name field can't be empty!";
@@ -85,7 +86,6 @@ class ProductDetail extends React.Component {
             ,()=>console.log("setState " + this.state.product.name))
             this.props.addProduct(product)
         }
-
     }
     render() {
         return (
@@ -153,7 +153,7 @@ class ProductDetail extends React.Component {
                             variant="contained"
                             color="primary"
                             disabled = {!(this.props.product.id === 0)}
-                            onClick={() => this.addTheProduct()}
+                            onClick={() => this.addTheProduct() }
                         >
                             Add
                         </Button>
